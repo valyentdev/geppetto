@@ -3,6 +3,7 @@ import BackendEngineer from '../src/agents/backend_engineer.js'
 import DatabaseSpecialist from '../src/agents/database_specialist.js'
 import { CoreMessage } from 'ai'
 import ProjectManager from '../src/agents/project_manager.js'
+import FrontendDeveloper from '../src/agents/frontend_developer.js'
 
 export default class AI extends BaseCommand {
   static commandName = 'ai'
@@ -23,11 +24,13 @@ export default class AI extends BaseCommand {
     const workers = {
       'Database Specialist': new DatabaseSpecialist(),
       'Backend Engineer': new BackendEngineer(),
+      'Frontend Developer': new FrontendDeveloper(),
     }
 
     const projectManager = new ProjectManager(
       `[Database Specialist Goal: "${workers['Database Specialist'].goal}"]` +
-        `[Backend Engineer Goal: "${workers['Backend Engineer'].goal}"]`
+        `[Backend Engineer Goal: "${workers['Backend Engineer'].goal}"]` +
+        `[Frontend Developer Goal: "${workers['Frontend Developer'].goal}"]`
     )
     const {
       object: { tasks },
