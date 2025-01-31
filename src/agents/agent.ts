@@ -3,7 +3,7 @@ import { createAnthropic } from '@ai-sdk/anthropic'
 import { z } from 'zod'
 import { promisify } from 'node:util'
 import { exec, ExecOptions } from 'node:child_process'
-import { writeFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { cwd } from 'node:process'
 import { readFileSync } from 'node:fs'
 
@@ -81,6 +81,18 @@ export abstract class Worker extends Agent {
       }),
       execute: async ({ path, contents }) => {
         await writeFile(cwd() + '/' + path, contents)
+      },
+    }),
+    readFile: tool({
+      description: 'Read text content from a file. Make sure that you pass the correct path.',
+      parameters: z.object({
+        path: z.string(),
+      }),
+      execute: async ({ path }) => {
+        const file = await readFile(path)
+        return {
+          fileContents: file.toString(),
+        }
       },
     }),
   }
